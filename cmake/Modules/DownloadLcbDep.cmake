@@ -6,7 +6,7 @@ MACRO(DOWNLOAD_LCB_DEP url dest)
         EXECUTE_PROCESS(COMMAND powershell -Command
             "(New-Object Net.WebClient).DownloadFile('${url}', '${dest}')" RESULT_VARIABLE DLRC)
     ELSEIF(CURL)
-        EXECUTE_PROCESS(COMMAND "${CURL}" "${url}" -o "${dest}" RESULT_VARIABLE DLRC)
+        EXECUTE_PROCESS(COMMAND "${CURL}" --retry 10 --retry-delay 120 "${url}" -o "${dest}" RESULT_VARIABLE DLRC)
     ELSEIF(WGET)
         EXECUTE_PROCESS(COMMAND "${WGET}" "${url}" -O "${dest}" RESULT_VARIABLE DLRC)
     ELSE()
